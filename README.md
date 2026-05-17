@@ -2,4 +2,309 @@
 
 **Modular Annotation Diagnostics for Repeat-rich and Aberrant Genomes of Rare Angiosperms**
 
-Project **MANDRAGORA** is a modular bioinformatics toolkit for exploring strange gene structures, giant introns, repeat-associated annotation complexity, and genome architecture in rare, parasitic, and repeat-rich plant genomes.
+**MANDRAGORA** is a modular bioinformatics toolkit for exploring strange gene structures, giant introns, repeat-associated annotation complexity, and genome architecture in rare, parasitic, and repeat-rich plant genomes.
+
+The project is especially motivated by unusual plant genomes such as **Rafflesiaceae**, where large genome size, repeat expansion, parasitic evolution, fragmented annotations, and unusual gene structures can make standard genome interpretation difficult.
+
+MANDRAGORA does not replace established tools such as BEDTools, AGAT, RepeatMasker, BUSCO, or genome annotation pipelines. Instead, it acts as a lightweight diagnostic layer that organizes genome annotation and repeat-overlap information into interpretable tables for biological inspection.
+
+---
+
+## Current Status
+
+MANDRAGORA is currently in early development.
+
+The current prototype includes:
+
+| Command | Purpose | Status |
+|---|---|---|
+| `mandragora prepare` | Inspect input annotation, repeat, and genome files | Prototype |
+| `mandragora intron` | Infer introns from exon coordinates and summarize intron architecture | Working prototype |
+| `mandragora repeat-overlap` | Analyze overlap between gene coordinates and repeat annotations | Working prototype |
+
+The repository also includes:
+
+| Component | Purpose |
+|---|---|
+| `examples/` | Synthetic toy genome, annotation, and repeat files |
+| `tests/` | Automated tests for intron and repeat-overlap modules |
+| `docs/` | File format and module documentation |
+
+---
+
+## Why MANDRAGORA?
+
+Some plant genomes are not merely large; they are structurally strange.
+
+In rare, parasitic, or repeat-rich plant genomes, researchers may need to ask questions such as:
+
+- Are these giant introns real biological features or annotation artifacts?
+- How many predicted genes overlap repeats?
+- Which genes are strongly repeat-entangled?
+- Are repeat-overlapping genes concentrated in certain scaffolds or gene models?
+- Does one annotation or assembly look more suspicious than another?
+- Are long gene spans caused by true gene architecture or repeat-driven inflation?
+
+MANDRAGORA is designed to help researchers inspect these questions using simple, reproducible command-line workflows.
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/MANDRAGORA.git
+cd MANDRAGORA
+```
+
+Create the conda environment:
+
+```bash
+conda env create -f environment.yml
+conda activate mandragora
+```
+
+Alternatively, install Python dependencies with pip:
+
+```bash
+pip install -r requirements.txt
+```
+
+For local development, install the package in editable mode:
+
+```bash
+pip install -e .
+```
+
+---
+
+## Quick Start
+
+Check the version:
+
+```bash
+python -m mandragora.cli version
+```
+
+Expected output:
+
+```text
+Project MANDRAGORA v0.1.0
+```
+
+Run the prepare command:
+
+```bash
+python -m mandragora.cli prepare \
+  --annotation examples/toy_annotation.gff3 \
+  --repeats examples/toy_repeats.bed \
+  --genome examples/toy_genome.fa \
+  --outdir results/prepare
+```
+
+Run intron analysis:
+
+```bash
+python -m mandragora.cli intron \
+  --annotation examples/toy_annotation.gff3 \
+  --outdir results/intron
+```
+
+Run gene-repeat overlap analysis:
+
+```bash
+python -m mandragora.cli repeat-overlap \
+  --genes examples/toy_annotation.gff3 \
+  --repeats examples/toy_repeats.bed \
+  --outdir results/repeat_overlap
+```
+
+---
+
+## Example Outputs
+
+### Intron Analyzer
+
+The intron analyzer produces:
+
+```text
+results/intron/
+├── introns.bed
+├── gene_intron_summary.tsv
+└── intron_stats.tsv
+```
+
+Example `introns.bed`:
+
+```text
+scaffold_1	150	250	gene1.intron1	0	+
+scaffold_1	300	400	gene1.intron2	0	+
+scaffold_1	650	800	gene2.intron1	0	-
+```
+
+### Gene-Repeat Overlap Analyzer
+
+The repeat-overlap analyzer produces:
+
+```text
+results/repeat_overlap/
+├── genes_with_repeat_overlap.tsv
+├── gene_repeat_overlap_summary.tsv
+└── repeat_class_summary.tsv
+```
+
+Example `genes_with_repeat_overlap.tsv`:
+
+```text
+gene_id	chrom	start	end	strand	gene_length	repeat_overlap_bp	repeat_fraction	repeat_count	repeat_classes
+gene1	scaffold_1	100	500	+	400	120	0.300000	2	DNA/TIR,LTR/Gypsy
+gene2	scaffold_1	600	900	-	300	40	0.133333	1	LINE/L1
+gene3	scaffold_2	100	250	+	150	40	0.266667	1	LTR/Copia
+```
+
+---
+
+## Repository Structure
+
+```text
+MANDRAGORA/
+├── README.md
+├── LICENSE
+├── environment.yml
+├── requirements.txt
+├── mandragora/
+│   ├── __init__.py
+│   ├── cli.py
+│   ├── prepare.py
+│   ├── intron.py
+│   ├── repeat_overlap.py
+│   └── utils.py
+├── examples/
+│   ├── toy_genome.fa
+│   ├── toy_annotation.gff3
+│   ├── toy_repeats.bed
+│   └── expected_outputs/
+├── scripts/
+│   └── make_toy_examples.py
+├── docs/
+│   ├── file_formats.md
+│   ├── intron_analyzer.md
+│   └── repeat_overlap.md
+└── tests/
+    ├── test_intron.py
+    └── test_repeat_overlap.py
+```
+
+---
+
+## Testing
+
+Run tests with:
+
+```bash
+pytest -v
+```
+
+Expected current result:
+
+```text
+4 passed
+```
+
+The current tests use synthetic toy files in `examples/` and compare MANDRAGORA outputs against manually defined expected outputs.
+
+---
+
+## Documentation
+
+See:
+
+| Document | Description |
+|---|---|
+| `docs/file_formats.md` | Input file format expectations and coordinate conventions |
+| `docs/intron_analyzer.md` | Details of the intron analysis module |
+| `docs/repeat_overlap.md` | Details of the gene-repeat overlap module |
+
+---
+
+## Current Limitations
+
+MANDRAGORA v0.1 is an early prototype.
+
+Current limitations include:
+
+- GFF3 support is stronger than GTF support.
+- Repeat input currently expects BED format.
+- Direct RepeatMasker `.out` and `.gff` parsing is planned but not yet implemented.
+- Intron FASTA extraction is planned but not yet implemented.
+- Splice motif detection is planned but not yet implemented.
+- Exon/CDS/intron/promoter-specific repeat overlap is planned but not yet implemented.
+- Visualization modules are planned but not yet implemented.
+
+---
+
+## Roadmap
+
+Planned future modules and features:
+
+| Feature | Purpose |
+|---|---|
+| Intron FASTA extraction | Extract intron sequences from genome FASTA |
+| Splice motif detection | Check canonical and non-canonical intron boundaries |
+| RepeatMasker parser | Accept RepeatMasker `.out`, `.gff`, and `.tbl` files |
+| Feature-specific repeat overlap | Separate overlap analysis for genes, exons, CDS, introns, and promoters |
+| Promoter repeat analysis | Inspect upstream regions for repeat contamination |
+| Gene weirdness scoring | Flag suspicious gene models |
+| Assembly comparison | Compare gene/repeat architecture between assemblies |
+| Rafflesiaceae-focused presets | Support workflows for parasitic, rare, and repeat-rich plant genomes |
+
+---
+
+## Project Philosophy
+
+MANDRAGORA is built around a simple idea:
+
+> Some genomes need diagnostic interpretation before biological interpretation.
+
+For weird plant genomes, especially parasitic and repeat-rich genomes, a predicted gene model may be biologically meaningful, repeat-associated, pipeline-dependent, or simply suspicious.
+
+MANDRAGORA aims to make those patterns easier to inspect.
+
+---
+
+## Author
+
+**Adhityo Wicaksono**
+
+Plant molecular biologist and bioinformatician. Project MANDRAGORA was initiated as an exploratory bioinformatics toolkit for strange, large, repeat-rich, and parasitic plant genomes, with special interest in Rafflesiaceae and other unusual angiosperm genomes.
+
+---
+
+## AI Usage Declaration
+
+This project was developed with assistance from AI tools, especially **ChatGPT / Helios**, during early ideation, documentation drafting, toy dataset design, test planning, and prototype code generation.
+
+AI assistance was used to accelerate software scaffolding and documentation, including:
+
+- drafting the initial README and documentation files;
+- designing synthetic toy FASTA, GFF3, BED, and expected-output files;
+- drafting early Python modules for intron analysis and gene-repeat overlap analysis;
+- drafting automated test files;
+- suggesting command-line interface structure and project organization.
+
+All AI-assisted outputs should be reviewed, tested, and validated by the human developer before scientific use. The author remains responsible for code review, biological interpretation, testing, validation, and any downstream scientific conclusions derived from MANDRAGORA.
+
+---
+
+## Development Note
+
+This project is in active early development.
+
+The initial prototype was developed as part of an exploratory bioinformatics workflow for strange plant genomes, with emphasis on transparent, testable, beginner-readable code.
+
+---
+
+## License
+
+See `LICENSE`.
