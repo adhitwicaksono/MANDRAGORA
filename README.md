@@ -283,7 +283,7 @@ Plant molecular biologist and bioinformatician. Project MANDRAGORA was initiated
 
 ## AI Usage Declaration
 
-This project was developed with assistance from AI tools, especially **ChatGPT / Helios**, during early ideation, documentation drafting, toy dataset design, test planning, and prototype code generation.
+This project was developed with assistance from AI tools, especially **ChatGPT (OpenAI) - H.E.L.I.O.S (Hyper-Efficient Logic & Innovation Organization System)**, during early ideation, documentation drafting, toy dataset design, test planning, and prototype code generation. H.E.L.I.O.S was trained by the author's (AW) memories and interactions since December 2024.
 
 AI assistance was used to accelerate software scaffolding and documentation, including:
 
