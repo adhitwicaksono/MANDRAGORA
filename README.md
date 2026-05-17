@@ -32,6 +32,18 @@ The repository also includes:
 
 ---
 
+## Version Updates
+
+### v0.1
+Adding three initial tools for intron analysis:
+```
+mandragora prepare
+mandragora intron
+mandragora repeat-overlap
+```
+
+---
+
 ## Why MANDRAGORA?
 
 Some plant genomes are not merely large; they are structurally strange.
