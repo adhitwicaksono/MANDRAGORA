@@ -1,0 +1,21 @@
+##gff-version 3
+##sequence-region scaffold_1 1 1000
+##sequence-region scaffold_2 1 800
+scaffold_1	toy	gene	101	500	.	+	.	ID=gene1;Name=Toy_gene_1
+scaffold_1	toy	mRNA	101	500	.	+	.	ID=gene1.t1;Parent=gene1
+scaffold_1	toy	exon	101	150	.	+	.	ID=gene1.exon1;Parent=gene1.t1
+scaffold_1	toy	exon	251	300	.	+	.	ID=gene1.exon2;Parent=gene1.t1
+scaffold_1	toy	exon	401	500	.	+	.	ID=gene1.exon3;Parent=gene1.t1
+scaffold_1	toy	CDS	101	150	.	+	0	ID=gene1.cds1;Parent=gene1.t1
+scaffold_1	toy	CDS	251	300	.	+	0	ID=gene1.cds2;Parent=gene1.t1
+scaffold_1	toy	CDS	401	500	.	+	0	ID=gene1.cds3;Parent=gene1.t1
+scaffold_1	toy	gene	601	900	.	-	.	ID=gene2;Name=Toy_gene_2
+scaffold_1	toy	mRNA	601	900	.	-	.	ID=gene2.t1;Parent=gene2
+scaffold_1	toy	exon	601	650	.	-	.	ID=gene2.exon1;Parent=gene2.t1
+scaffold_1	toy	exon	801	900	.	-	.	ID=gene2.exon2;Parent=gene2.t1
+scaffold_1	toy	CDS	601	650	.	-	0	ID=gene2.cds1;Parent=gene2.t1
+scaffold_1	toy	CDS	801	900	.	-	0	ID=gene2.cds2;Parent=gene2.t1
+scaffold_2	toy	gene	101	250	.	+	.	ID=gene3;Name=Toy_gene_3_single_exon
+scaffold_2	toy	mRNA	101	250	.	+	.	ID=gene3.t1;Parent=gene3
+scaffold_2	toy	exon	101	250	.	+	.	ID=gene3.exon1;Parent=gene3.t1
+scaffold_2	toy	CDS	101	250	.	+	0	ID=gene3.cds1;Parent=gene3.t1
