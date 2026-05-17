@@ -1,0 +1,35 @@
+name: mandragora
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  # Core language
+  - python>=3.10
+
+  # Core scientific stack
+  - pandas
+  - numpy
+  - biopython
+  - pyfaidx
+  - intervaltree
+
+  # Command-line interface
+  - typer
+  - rich
+
+  # Plotting and reports
+  - matplotlib
+  - pyyaml
+
+  # Optional but useful bioinformatics utilities
+  - bedtools
+
+  # Development and testing
+  - pytest
+  - black
+  - ruff
+
+  # Pip fallback
+  - pip
