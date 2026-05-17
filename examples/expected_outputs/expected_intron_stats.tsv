@@ -1,0 +1,8 @@
+metric	value
+total_transcripts	3
+total_introns	3
+total_intron_bp	350
+min_intron_length	100
+max_intron_length	150
+mean_intron_length	116.666667
+median_intron_length	100

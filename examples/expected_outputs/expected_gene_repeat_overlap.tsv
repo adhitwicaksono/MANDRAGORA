@@ -1,0 +1,4 @@
+gene_id	chrom	start	end	strand	gene_length	repeat_overlap_bp	repeat_fraction	repeat_count	repeat_classes
+gene1	scaffold_1	100	500	+	400	120	0.300000	2	DNA/TIR,LTR/Gypsy
+gene2	scaffold_1	600	900	-	300	40	0.133333	1	LINE/L1
+gene3	scaffold_2	100	250	+	150	40	0.266667	1	LTR/Copia

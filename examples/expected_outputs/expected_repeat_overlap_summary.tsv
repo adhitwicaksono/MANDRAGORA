@@ -1,0 +1,7 @@
+metric	value
+total_genes	3
+total_repeats	5
+genes_overlapping_repeats	3
+percent_genes_overlapping_repeats	100.000000
+total_gene_bp	850
+total_gene_repeat_overlap_bp	200

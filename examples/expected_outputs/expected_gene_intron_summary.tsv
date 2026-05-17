@@ -1,0 +1,4 @@
+gene_id	transcript_id	chrom	strand	exon_count	intron_count	total_intron_bp	max_intron_length
+gene1	gene1.t1	scaffold_1	+	3	2	200	100
+gene2	gene2.t1	scaffold_1	-	2	1	150	150
+gene3	gene3.t1	scaffold_2	+	1	0	0	0
