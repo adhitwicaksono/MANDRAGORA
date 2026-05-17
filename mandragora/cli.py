@@ -8,6 +8,7 @@ from rich.console import Console
 from rich.table import Table
 
 from mandragora import __version__
+from mandragora.prepare import run_prepare
 from mandragora.intron import run_intron_analysis
 from mandragora.repeat_overlap import run_repeat_overlap_analysis
 
@@ -134,6 +135,63 @@ def repeat_overlap(
     console.print("[bold green]Gene-repeat overlap analysis completed.[/bold green]")
     print_output_table("MANDRAGORA repeat-overlap outputs", outputs)
 
+
+@app.command("prepare")
+def prepare(
+    annotation: Path = typer.Option(
+        None,
+        "--annotation",
+        "-a",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Optional genome annotation file in GFF3/GTF-like format.",
+    ),
+    repeats: Path = typer.Option(
+        None,
+        "--repeats",
+        "-r",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Optional repeat annotation file in BED format.",
+    ),
+    genome: Path = typer.Option(
+        None,
+        "--genome",
+        "-g",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Optional genome FASTA file.",
+    ),
+    outdir: Path = typer.Option(
+        Path("results/prepare"),
+        "--outdir",
+        "-o",
+        file_okay=False,
+        dir_okay=True,
+        writable=True,
+        help="Output directory for preparation report.",
+    ),
+) -> None:
+    """
+    Inspect input files and generate a simple preparation report.
+    """
+    console.print("[bold green]Running MANDRAGORA prepare...[/bold green]")
+
+    outputs = run_prepare(
+        annotation_path=annotation,
+        repeats_path=repeats,
+        genome_path=genome,
+        outdir=outdir,
+    )
+
+    console.print("[bold green]Prepare step completed.[/bold green]")
+    print_output_table("MANDRAGORA prepare outputs", outputs)
 
 if __name__ == "__main__":
     app()
