@@ -1,0 +1,12 @@
+pandas
+numpy
+biopython
+pyfaidx
+intervaltree
+typer
+rich
+matplotlib
+pyyaml
+pytest
+black
+ruff
