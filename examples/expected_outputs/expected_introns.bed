@@ -1,0 +1,3 @@
+scaffold_1	150	250	gene1.intron1	0	+
+scaffold_1	300	400	gene1.intron2	0	+
+scaffold_1	650	800	gene2.intron1	0	-
