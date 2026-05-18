@@ -372,8 +372,8 @@ Planned future modules and features:
 | Intron FASTA extraction | Extract intron sequences from genome FASTA |
 | Splice motif detection | Check canonical and non-canonical intron boundaries |
 | RepeatMasker parser | Accept RepeatMasker `.out`, `.gff`, and `.tbl` files |
-| Feature-specific repeat overlap | Separate overlap analysis for genes, exons, CDS, introns, and promoters |
-| Promoter repeat analysis | Inspect upstream regions for repeat contamination |
+| Feature-specific repeat overlap | Separate overlap analysis for genes, exons, CDS, introns, UTRs, and promoters |
+| Promoter motif-prep workflow | Prepare promoter FASTA files for motif and cis-regulatory element analysis |
 | Assembly comparison | Compare gene/repeat architecture between assemblies |
 | Host-shadow analysis | Explore possible host-like, contaminant-like, or HGT-like signals in parasitic plant data |
 | BUSCO ortholog helper | Prepare BUSCO-based ortholog datasets for phylogenomic workflows |
