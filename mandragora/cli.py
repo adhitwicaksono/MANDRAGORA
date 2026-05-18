@@ -9,6 +9,7 @@ from rich.table import Table
 
 from mandragora import __version__
 from mandragora.prepare import run_prepare
+from mandragora.promoter import run_promoter_analysis
 from mandragora.intron import run_intron_analysis
 from mandragora.omen import run_omen_analysis
 from mandragora.repeat_overlap import run_repeat_overlap_analysis
@@ -290,6 +291,76 @@ def omen(
 
     console.print("[bold green]Omen analysis completed.[/bold green]")
     print_output_table("MANDRAGORA omen outputs", outputs)
+
+@app.command("promoter")
+def promoter(
+    annotation: Path = typer.Option(
+        ...,
+        "--annotation",
+        "-a",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Input genome annotation file in GFF3/GTF-like format.",
+    ),
+    genome: Path = typer.Option(
+        None,
+        "--genome",
+        "-g",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Optional genome FASTA file for sequence extraction and scaffold bounds.",
+    ),
+    repeats: Path = typer.Option(
+        None,
+        "--repeats",
+        "-r",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Optional repeat annotation file in BED format.",
+    ),
+    upstream: int = typer.Option(
+        2000,
+        "--upstream",
+        "-u",
+        min=0,
+        help="Upstream promoter length to extract.",
+    ),
+    outdir: Path = typer.Option(
+        Path("results/promoter"),
+        "--outdir",
+        "-o",
+        file_okay=False,
+        dir_okay=True,
+        writable=True,
+        help="Output directory for promoter analysis results.",
+    ),
+) -> None:
+    """
+    Extract promoter/upstream regions and optionally analyze repeat overlap.
+    """
+    console.print("[bold green]Running MANDRAGORA promoter analysis...[/bold green]")
+    console.print(f"Annotation: [cyan]{annotation}[/cyan]")
+    console.print(f"Genome: [cyan]{genome}[/cyan]")
+    console.print(f"Repeats: [cyan]{repeats}[/cyan]")
+    console.print(f"Upstream length: [cyan]{upstream} bp[/cyan]")
+    console.print(f"Output directory: [cyan]{outdir}[/cyan]")
+
+    outputs = run_promoter_analysis(
+        annotation_path=annotation,
+        genome_path=genome,
+        repeat_bed_path=repeats,
+        upstream=upstream,
+        outdir=outdir,
+    )
+
+    console.print("[bold green]Promoter analysis completed.[/bold green]")
+    print_output_table("MANDRAGORA promoter outputs", outputs)
 
 if __name__ == "__main__":
     app()
