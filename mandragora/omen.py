@@ -146,9 +146,6 @@ def analyze_gene_omen(
             score += 1
             flags.append("single_exon_repeat_overlap")
 
-        if intron_count > 0 and repeat_overlap_bp > 0:
-            flags.append("repeat_overlap_gene_with_introns")
-
         omen_rows.append(
             {
                 "gene_id": gene_id,
