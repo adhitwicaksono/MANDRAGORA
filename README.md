@@ -22,6 +22,7 @@ The current prototype includes:
 | `mandragora intron` | Infer introns from exon coordinates and summarize intron architecture | Working prototype |
 | `mandragora repeat-overlap` | Analyze overlap between gene coordinates and repeat annotations | Working prototype |
 | `mandragora omen` | Score genes for suspicious architecture and repeat-associated weirdness | Working prototype |
+| `mandragora promoter` | Extract upstream/promoter regions and optionally analyze promoter-repeat overlap | Working prototype |
 
 The repository also includes:
 
@@ -43,8 +44,8 @@ mandragora intron
 mandragora repeat-overlap
 ```
 
-### v0.2 (on progress)
-Adding two additional tools, including 'omen' for gene structure inspection and 'promoter' for 2k bp upstream promoter analysis:
+### v0.2
+Adding two additional tools, including 'omen' for gene structure inspection and 'promoter' for promoter repeat inspection:
 ```
 mandragora omen
 mandragora promoter
@@ -82,6 +83,7 @@ In rare, parasitic, or repeat-rich plant genomes, researchers may need to ask qu
 - Are repeat-overlapping genes concentrated in certain scaffolds or gene models?
 - Does one annotation or assembly look more suspicious than another?
 - Are long gene spans caused by true gene architecture or repeat-driven inflation?
+- - Are upstream/promoter regions suitable for motif analysis, or are they repeat-contaminated?
 
 MANDRAGORA is designed to help researchers inspect these questions using simple, reproducible command-line workflows.
 
@@ -167,6 +169,17 @@ python -m mandragora.cli omen \
   --outdir results/omen
 ```
 
+Run promoter analysis:
+
+```bash
+python -m mandragora.cli promoter \
+  --annotation examples/toy_annotation.gff3 \
+  --genome examples/toy_genome.fa \
+  --repeats examples/toy_promoter_repeats.bed \
+  --upstream 100 \
+  --outdir results/promoter
+```
+
 ---
 
 ## Example Outputs
@@ -229,6 +242,35 @@ gene2	scaffold_1	600	900	-	300	2	1	150	40	0.133333	1	LINE/L1	0	NONE	.
 gene3	scaffold_2	100	250	+	150	1	0	0	40	0.266667	1	LTR/Copia	4	HIGH	short_gene,repeat_fraction_ge_0.25,single_exon_repeat_overlap
 ```
 
+### Promoter Analyzer
+
+The promoter module produces:
+
+```text
+results/promoter/
+├── promoters.bed
+├── promoters.fa
+├── promoter_repeat_overlap.tsv
+└── promoter_summary.tsv
+```
+
+Example `promoters.bed` with `--upstream 100`:
+
+```text
+scaffold_1	0	100	gene1.promoter	0	+
+scaffold_1	900	1000	gene2.promoter	0	-
+scaffold_2	0	100	gene3.promoter	0	+
+```
+
+Example `promoter_repeat_overlap.tsv`:
+
+```text
+promoter_id	chrom	start	end	strand	promoter_length	repeat_overlap_bp	repeat_fraction	repeat_count	repeat_classes
+gene1.promoter	scaffold_1	0	100	+	100	40	0.400000	1	Promoter_repeat_A
+gene2.promoter	scaffold_1	900	1000	-	100	30	0.300000	1	Promoter_repeat_B
+gene3.promoter	scaffold_2	0	100	+	100	10	0.100000	1	Promoter_repeat_C
+```
+
 ---
 
 ## Repository Structure
@@ -242,15 +284,17 @@ MANDRAGORA/
 ├── mandragora/
 │   ├── __init__.py
 │   ├── cli.py
-│   ├── omen.py
 │   ├── prepare.py
 │   ├── intron.py
 │   ├── repeat_overlap.py
+│   ├── omen.py
+│   ├── promoter.py
 │   └── utils.py
 ├── examples/
 │   ├── toy_genome.fa
 │   ├── toy_annotation.gff3
 │   ├── toy_repeats.bed
+│   ├── toy_promoter_repeats.bed
 │   └── expected_outputs/
 ├── scripts/
 │   └── make_toy_examples.py
@@ -258,10 +302,13 @@ MANDRAGORA/
 │   ├── file_formats.md
 │   ├── intron_analyzer.md
 │   ├── repeat_overlap.md
-│   └── omen.md
+│   ├── omen.md
+│   └── promoter.md
 └── tests/
     ├── test_intron.py
-    └── test_repeat_overlap.py
+    ├── test_repeat_overlap.py
+    ├── test_omen.py
+    └── test_promoter.py
 ```
 
 ---
@@ -277,7 +324,7 @@ pytest -v
 Expected current result:
 
 ```text
-7 passed
+11 passed
 ```
 
 The current tests use synthetic toy files in `examples/` and compare MANDRAGORA outputs against manually defined expected outputs.
@@ -294,6 +341,7 @@ See:
 | `docs/intron_analyzer.md` | Details of the intron analysis module |
 | `docs/repeat_overlap.md` | Details of the gene-repeat overlap module |
 | `docs/omen.md` | Details of the gene omen scoring module |
+| `docs/promoter.md` | Details of the promoter extraction and promoter-repeat overlap module |
 
 ---
 
@@ -306,12 +354,12 @@ Current limitations include:
 - GFF3 support is stronger than GTF support.
 - Repeat input currently expects BED format.
 - Direct RepeatMasker `.out` and `.gff` parsing is planned but not yet implemented.
-- Intron FASTA extraction is planned but not yet implemented.
-- Splice motif detection is planned but not yet implemented.
-- Exon/CDS/intron/promoter-specific repeat overlap is planned but not yet implemented.
-- Visualization modules are planned but not yet implemented.
 - Omen scoring is heuristic and should be interpreted as triage, not biological classification.
 - Omen thresholds may need adjustment for each genome.
+- Promoter extraction currently uses gene-level coordinates and does not yet distinguish transcript isoforms or annotated TSS evidence.
+- Promoter FASTA extraction requires `pyfaidx`.
+- Exon/CDS/intron/promoter-specific repeat overlap is only partially implemented; full feature-level repeat diagnostics are planned.
+- Visualization modules are planned but not yet implemented.
 
 ---
 
