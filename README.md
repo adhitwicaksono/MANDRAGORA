@@ -44,17 +44,18 @@ mandragora repeat-overlap
 ```
 
 ### v0.2 (on progress)
-Adding two additional tools for intron analysis, including 'omen' for size analysis and 'promoter' for 2k bp upstream promoter analysis:
+Adding two additional tools, including 'omen' for gene structure inspection and 'promoter' for 2k bp upstream promoter analysis:
 ```
 mandragora omen
 mandragora promoter
 ```
 
 ### v0.3 (in development)
-Adding two additional tools for intron analysis, including 'omen' for size analysis and 'promoter' for 2k bp upstream promoter analysis:
+Adding three additional tools, including 'hostshadow' for horizontal gene transfer (HGT) host gene detection, 'mirror' for host-parasite transfer, and 'busco-ortholog' for BUSCO data analysis:
 ```
-mandragora omen
-mandragora promoter
+mandragora hostshadow
+mandragora mirror
+mandragora busco-ortholog
 ```
 
 ### v0.4 (planned)
