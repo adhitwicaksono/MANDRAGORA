@@ -21,6 +21,7 @@ The current prototype includes:
 | `mandragora prepare` | Inspect input annotation, repeat, and genome files | Prototype |
 | `mandragora intron` | Infer introns from exon coordinates and summarize intron architecture | Working prototype |
 | `mandragora repeat-overlap` | Analyze overlap between gene coordinates and repeat annotations | Working prototype |
+| `mandragora omen` | Score genes for suspicious architecture and repeat-associated weirdness | Working prototype |
 
 The repository also includes:
 
