@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/mandragora_banner.png" alt="MANDRAGORA project banner" width="100%">
+</p>
+
 # MANDRAGORA
 
 **Modular Annotation Diagnostics for Repeat-rich and Aberrant Genomes of Rare Angiosperms**
