@@ -83,7 +83,7 @@ In rare, parasitic, or repeat-rich plant genomes, researchers may need to ask qu
 - Are repeat-overlapping genes concentrated in certain scaffolds or gene models?
 - Does one annotation or assembly look more suspicious than another?
 - Are long gene spans caused by true gene architecture or repeat-driven inflation?
-- - Are upstream/promoter regions suitable for motif analysis, or are they repeat-contaminated?
+- Are upstream/promoter regions suitable for motif analysis, or are they repeat-contaminated?
 
 MANDRAGORA is designed to help researchers inspect these questions using simple, reproducible command-line workflows.
 
