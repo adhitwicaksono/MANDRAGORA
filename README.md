@@ -367,19 +367,40 @@ Current limitations include:
 
 Planned future modules and features:
 
+### v0.2.x — Strengthening the Core Diagnostics
+
 | Feature | Purpose |
 |---|---|
 | Intron FASTA extraction | Extract intron sequences from genome FASTA |
 | Splice motif detection | Check canonical and non-canonical intron boundaries |
 | RepeatMasker parser | Accept RepeatMasker `.out`, `.gff`, and `.tbl` files |
-| Feature-specific repeat overlap | Separate overlap analysis for genes, exons, CDS, introns, UTRs, and promoters |
 | Promoter motif-prep workflow | Prepare promoter FASTA files for motif and cis-regulatory element analysis |
-| Assembly comparison | Compare gene/repeat architecture between assemblies |
+| Promoter boundary safeguards | Warn when promoter regions hit scaffold edges or missing FASTA records |
+
+### v0.3 — Feature-Level Genome Diagnostics
+
+| Feature | Purpose |
+|---|---|
+| Feature-specific repeat overlap | Separate repeat overlap analysis for genes, exons, CDS, introns, UTRs, and promoters |
+| Omen v2 scoring | Include exon/CDS/intron/promoter-specific repeat signals in gene warning scores |
+| Gene model pathology report | Flag genes with suspicious span, short CDS, high repeat burden, or unusual exon/intron structure |
+| Assembly comparison | Compare gene/repeat architecture between assemblies or annotation versions |
+
+### v0.4 — Parasitic and Weird Plant Genome Modules
+
+| Feature | Purpose |
+|---|---|
 | Host-shadow analysis | Explore possible host-like, contaminant-like, or HGT-like signals in parasitic plant data |
+| Rafflesiaceae-focused presets | Provide parameter presets and workflow templates for Rafflesiaceae-like genomes |
+| Repeat-rich genome report | Summarize genome-wide repeat-gene entanglement, long introns, and suspicious annotation patterns |
+
+### v0.5+ — Phylogenomics and Variant-Aware Extensions
+
+| Feature | Purpose |
+|---|---|
 | BUSCO ortholog helper | Prepare BUSCO-based ortholog datasets for phylogenomic workflows |
-| VCF audit module | Inspect VCF quality, missingness, heterozygosity, SNP density, and phylogeny-readiness |
-| VCF-to-phylogeny module | Convert audited VCF data into phylogeny-ready matrices |
-| Rafflesiaceae-focused presets | Support workflows for parasitic, rare, and repeat-rich plant genomes |
+| VCF audit module | Inspect VCF quality, missingness, heterozygosity, SNP density, multiallelic sites, and phylogeny-readiness |
+| VCF-to-phylogeny module | Convert audited VCF data into phylogeny-ready FASTA/PHYLIP/NEXUS-style matrices |
 
 ---
 
