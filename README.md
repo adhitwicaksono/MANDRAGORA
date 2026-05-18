@@ -35,11 +35,32 @@ The repository also includes:
 ## Version Updates
 
 ### v0.1
-Adding three initial tools for intron analysis:
+Adding three initial tools for intron analysis, including intron size and intron-gene overlap reports:
 ```
 mandragora prepare
 mandragora intron
 mandragora repeat-overlap
+```
+
+### v0.2 (on progress)
+Adding two additional tools for intron analysis, including 'omen' for size analysis and 'promoter' for 2k bp upstream promoter analysis:
+```
+mandragora omen
+mandragora promoter
+```
+
+### v0.3 (in development)
+Adding two additional tools for intron analysis, including 'omen' for size analysis and 'promoter' for 2k bp upstream promoter analysis:
+```
+mandragora omen
+mandragora promoter
+```
+
+### v0.4 (planned)
+Adding two additional tools for intron analysis, including 'vcf-audit' to inspect VCF quality and 'vcf2phylo' to make use the VCF files for analysis (inspired by vcf2phylip):
+```
+mandragora vcf-audit
+mandragora vcf2phylo
 ```
 
 ---
