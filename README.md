@@ -65,6 +65,9 @@ mandragora vcf-audit
 mandragora vcf2phylo
 ```
 
+### v0.5 or later (planned)
+Visualization tools.
+
 ---
 
 ## Why MANDRAGORA?
