@@ -10,6 +10,7 @@ from rich.table import Table
 from mandragora import __version__
 from mandragora.prepare import run_prepare
 from mandragora.intron import run_intron_analysis
+from mandragora.omen import run_omen_analysis
 from mandragora.repeat_overlap import run_repeat_overlap_analysis
 
 
@@ -192,6 +193,103 @@ def prepare(
 
     console.print("[bold green]Prepare step completed.[/bold green]")
     print_output_table("MANDRAGORA prepare outputs", outputs)
+
+@app.command("omen")
+def omen(
+    annotation: Path = typer.Option(
+        ...,
+        "--annotation",
+        "-a",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Input genome annotation file in GFF3/GTF-like format.",
+    ),
+    repeats: Path = typer.Option(
+        ...,
+        "--repeats",
+        "-r",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+        help="Input repeat annotation file in BED format.",
+    ),
+    outdir: Path = typer.Option(
+        Path("results/omen"),
+        "--outdir",
+        "-o",
+        file_okay=False,
+        dir_okay=True,
+        writable=True,
+        help="Output directory for gene omen results.",
+    ),
+    long_gene: int = typer.Option(
+        100_000,
+        "--long-gene",
+        help="Gene length threshold for long gene warning.",
+    ),
+    very_long_gene: int = typer.Option(
+        500_000,
+        "--very-long-gene",
+        help="Gene length threshold for very long gene warning.",
+    ),
+    long_intron: int = typer.Option(
+        100_000,
+        "--long-intron",
+        help="Maximum intron length threshold for long intron warning.",
+    ),
+    very_long_intron: int = typer.Option(
+        500_000,
+        "--very-long-intron",
+        help="Maximum intron length threshold for very long intron warning.",
+    ),
+    repeat_warning: float = typer.Option(
+        0.25,
+        "--repeat-warning",
+        help="Repeat fraction threshold for moderate repeat warning.",
+    ),
+    repeat_high: float = typer.Option(
+        0.50,
+        "--repeat-high",
+        help="Repeat fraction threshold for high repeat warning.",
+    ),
+    repeat_severe: float = typer.Option(
+        0.75,
+        "--repeat-severe",
+        help="Repeat fraction threshold for severe repeat warning.",
+    ),
+    short_gene: int = typer.Option(
+        300,
+        "--short-gene",
+        help="Gene length threshold for short gene warning.",
+    ),
+) -> None:
+    """
+    Score genes for suspicious architecture and repeat-associated weirdness.
+    """
+    console.print("[bold green]Running MANDRAGORA omen analysis...[/bold green]")
+    console.print(f"Annotation: [cyan]{annotation}[/cyan]")
+    console.print(f"Repeats: [cyan]{repeats}[/cyan]")
+    console.print(f"Output directory: [cyan]{outdir}[/cyan]")
+
+    outputs = run_omen_analysis(
+        annotation_path=annotation,
+        repeat_bed_path=repeats,
+        outdir=outdir,
+        long_gene_threshold=long_gene,
+        very_long_gene_threshold=very_long_gene,
+        long_intron_threshold=long_intron,
+        very_long_intron_threshold=very_long_intron,
+        repeat_warning_fraction=repeat_warning,
+        repeat_high_fraction=repeat_high,
+        repeat_severe_fraction=repeat_severe,
+        short_gene_threshold=short_gene,
+    )
+
+    console.print("[bold green]Omen analysis completed.[/bold green]")
+    print_output_table("MANDRAGORA omen outputs", outputs)
 
 if __name__ == "__main__":
     app()
