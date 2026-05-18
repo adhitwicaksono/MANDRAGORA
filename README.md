@@ -153,6 +153,15 @@ python -m mandragora.cli repeat-overlap \
   --outdir results/repeat_overlap
 ```
 
+Run gene omen scoring:
+
+```bash
+python -m mandragora.cli omen \
+  --annotation examples/toy_annotation.gff3 \
+  --repeats examples/toy_repeats.bed \
+  --outdir results/omen
+```
+
 ---
 
 ## Example Outputs
@@ -196,6 +205,25 @@ gene2	scaffold_1	600	900	-	300	40	0.133333	1	LINE/L1
 gene3	scaffold_2	100	250	+	150	40	0.266667	1	LTR/Copia
 ```
 
+### Gene Omen Scoring
+
+The omen module produces:
+
+```text
+results/omen/
+├── gene_omen_scores.tsv
+└── gene_omen_summary.tsv
+```
+
+Example `gene_omen_scores.tsv`:
+
+```text
+gene_id	chrom	start	end	strand	gene_length	exon_count	intron_count	max_intron_length	repeat_overlap_bp	repeat_fraction	repeat_count	repeat_classes	omen_score	omen_level	flags
+gene1	scaffold_1	100	500	+	400	3	2	100	120	0.300000	2	DNA/TIR,LTR/Gypsy	2	MODERATE	repeat_fraction_ge_0.25
+gene2	scaffold_1	600	900	-	300	2	1	150	40	0.133333	1	LINE/L1	0	NONE	.
+gene3	scaffold_2	100	250	+	150	1	0	0	40	0.266667	1	LTR/Copia	4	HIGH	short_gene,repeat_fraction_ge_0.25,single_exon_repeat_overlap
+```
+
 ---
 
 ## Repository Structure
@@ -223,7 +251,8 @@ MANDRAGORA/
 ├── docs/
 │   ├── file_formats.md
 │   ├── intron_analyzer.md
-│   └── repeat_overlap.md
+│   ├── repeat_overlap.md
+│   └── omen.md
 └── tests/
     ├── test_intron.py
     └── test_repeat_overlap.py
@@ -242,7 +271,7 @@ pytest -v
 Expected current result:
 
 ```text
-4 passed
+7 passed
 ```
 
 The current tests use synthetic toy files in `examples/` and compare MANDRAGORA outputs against manually defined expected outputs.
@@ -258,6 +287,7 @@ See:
 | `docs/file_formats.md` | Input file format expectations and coordinate conventions |
 | `docs/intron_analyzer.md` | Details of the intron analysis module |
 | `docs/repeat_overlap.md` | Details of the gene-repeat overlap module |
+| `docs/omen.md` | Details of the gene omen scoring module |
 
 ---
 
@@ -274,6 +304,8 @@ Current limitations include:
 - Splice motif detection is planned but not yet implemented.
 - Exon/CDS/intron/promoter-specific repeat overlap is planned but not yet implemented.
 - Visualization modules are planned but not yet implemented.
+- Omen scoring is heuristic and should be interpreted as triage, not biological classification.
+- Omen thresholds may need adjustment for each genome.
 
 ---
 
@@ -288,8 +320,11 @@ Planned future modules and features:
 | RepeatMasker parser | Accept RepeatMasker `.out`, `.gff`, and `.tbl` files |
 | Feature-specific repeat overlap | Separate overlap analysis for genes, exons, CDS, introns, and promoters |
 | Promoter repeat analysis | Inspect upstream regions for repeat contamination |
-| Gene weirdness scoring | Flag suspicious gene models |
 | Assembly comparison | Compare gene/repeat architecture between assemblies |
+| Host-shadow analysis | Explore possible host-like, contaminant-like, or HGT-like signals in parasitic plant data |
+| BUSCO ortholog helper | Prepare BUSCO-based ortholog datasets for phylogenomic workflows |
+| VCF audit module | Inspect VCF quality, missingness, heterozygosity, SNP density, and phylogeny-readiness |
+| VCF-to-phylogeny module | Convert audited VCF data into phylogeny-ready matrices |
 | Rafflesiaceae-focused presets | Support workflows for parasitic, rare, and repeat-rich plant genomes |
 
 ---
